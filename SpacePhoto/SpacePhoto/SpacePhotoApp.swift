@@ -40,7 +40,7 @@ struct CatalogView: View {
                         // iOS only!: .listRowSeparator(.hidden)
                 }
             }
-            .navigationTitle("Catalog")
+            .navigationTitle("Space Photos Catalog")
             .listStyle(.plain)
             .refreshable {
                 await photos.updateItems()

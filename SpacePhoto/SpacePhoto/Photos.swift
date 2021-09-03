@@ -16,8 +16,9 @@ class Photos: ObservableObject {
 
     /// Updates `items` to a new, random list of `SpacePhoto`.
     func updateItems() async {
-        let fetched = await fetchPhotos()
-        items = fetched
+        // OLD: let fetched = await fetchPhotos()
+        let fetched = await fetchCountPhotos(number: 20)
+        items = fetched ?? []
     }
 
     func notSoRandomPhotoDates() -> [Date] {
@@ -48,6 +49,26 @@ class Photos: ObservableObject {
             }
         }
         return downloaded
+    }
+    
+    func fetchCountPhotos(number: Int) async -> [SpacePhoto]? {
+        var downloaded: [SpacePhoto] = []
+        do {
+            let url = SpacePhoto.requestCount(count: number)
+            print(url)
+            let (data, _) = try await URLSession.shared.data(from: url)
+            print(data)
+            
+            let decoded = try JSONDecoder().decode([SpacePhoto].self, from: data)
+            print(decoded)
+            
+            for photo in decoded {
+                downloaded.append(photo)
+            }
+            return downloaded
+        } catch {
+            return nil
+        }
     }
 
     /// Fetches a `SpacePhoto` from the given `URL`.

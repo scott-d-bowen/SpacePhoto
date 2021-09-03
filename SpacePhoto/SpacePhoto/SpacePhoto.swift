@@ -62,6 +62,11 @@ extension SpacePhoto {
         let dateString = SpacePhoto.dateFormatter.string(from: date)
         return URL(string: "\(SpacePhoto.urlTemplate)&date=\(dateString)")!
     }
+    
+    static func requestCount(count: Int) -> URL {
+        let countString = "&count=\(count)"
+        return URL(string: "\(SpacePhoto.urlTemplate)\(countString)")!
+    }
 
     private static func parseDate(
         fromContainer container: KeyedDecodingContainer<CodingKeys>
