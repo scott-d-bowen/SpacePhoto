@@ -23,8 +23,8 @@ struct SpacePhoto {
         print(photo.hdurl)
         let saveToURL = showSavePanel()
         if saveToURL != nil {
-            let data = try? Data(contentsOf: hdurl)
-            try? data?.write(to: saveToURL!, options: .withoutOverwriting)
+            async let data = try? Data(contentsOf: hdurl)
+            try? await data?.write(to: saveToURL!, options: .withoutOverwriting)
         }
     }
     func showSavePanel() -> URL? {
