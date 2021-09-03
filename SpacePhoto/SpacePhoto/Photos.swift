@@ -60,10 +60,11 @@ class Photos: ObservableObject {
             print(data)
             
             let decoded = try JSONDecoder().decode([SpacePhoto].self, from: data)
-            print(decoded)
+            // print(decoded)
             
             for photo in decoded {
                 downloaded.append(photo)
+                print(photo.hdurl)
             }
             return downloaded
         } catch {
