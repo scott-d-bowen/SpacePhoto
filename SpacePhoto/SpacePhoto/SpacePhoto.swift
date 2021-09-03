@@ -1,3 +1,4 @@
+import SwiftUI
 
 import Foundation
 /// A SpacePhoto contains information about a single day's photo record
@@ -17,9 +18,29 @@ struct SpacePhoto {
     /// A link to the image contained within the entry.
     var hdurl: URL
     
-    func save(_ photo: SpacePhoto) {
+    func save(_ photo: SpacePhoto) async {
         favourites.append(photo)
         print(photo.hdurl)
+        let saveToURL = showSavePanel()
+        if saveToURL != nil {
+            let data = try? Data(contentsOf: hdurl)
+            try? data?.write(to: saveToURL!, options: .withoutOverwriting)
+        }
+    }
+    func showSavePanel() -> URL? {
+        let savePanel = NSSavePanel()
+        savePanel.allowedFileTypes = ["jpg"]
+        savePanel.allowedContentTypes = [ .jpeg ]
+        savePanel.canCreateDirectories = true
+        savePanel.isExtensionHidden = false
+        savePanel.allowsOtherFileTypes = false
+        savePanel.title = "Save Image Where..."
+        savePanel.message = "Choose a folder and a filename to store your space photo."
+        savePanel.nameFieldLabel = "File name:"
+        savePanel.nameFieldStringValue = self.title + ".jpg"
+        
+        let response = savePanel.runModal()
+        return response == .OK ? savePanel.url : nil
     }
 }
 

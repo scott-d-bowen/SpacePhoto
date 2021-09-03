@@ -16,8 +16,7 @@ struct SavePhotoButton: View {
         Button {
             Task {
                 isSaving = true
-                // await photo.save(photo)
-                photo.save(photo)
+                await photo.save(photo)
                 isSaving = false
             }
         } label: {
